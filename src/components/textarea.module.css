@@ -1,0 +1,35 @@
+/* src/components/TextArea.module.css */
+
+.textAreaContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-radius: 12px;
+  background: #303030;
+}
+
+.topBar {
+  display: flex;
+  padding: 12px;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-radius: 12px 12px 0px 0px;
+  background: #303030;
+}
+
+.typingArea {
+  display: flex;
+  height: 1034px;
+  padding: 24px;
+  align-items: flex-start;
+  gap: 10px;
+  border-radius: 0px 0px 12px 12px;
+  background: #1a1a1a;
+  color: white;
+  font-family: Inter, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  resize: none;
+  width: 100%;
+  box-sizing: border-box;
+}
