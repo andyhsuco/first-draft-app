@@ -9,11 +9,17 @@ import { Label } from "@/components/ui/label"; // Ensure correct import
 import { useToast } from "@/components/ui/use-toast"; // Ensure correct import
 import ToastTest from "@/components/ToastTest";
 import { Button } from "@/components/ui/button";
+import { TimeSlider } from "./TimeSlider"; // Import TimeSlider
+
+// The rest of your Navbar component code...
 
 const NavBar: React.FC = () => {
   const [seconds, setSeconds] = useState<number>(600);
+  const [initialSeconds, setInitialSeconds] = useState<number>(600); // Initial seconds from slider
   const [running, setRunning] = useState<boolean>(false);
   const [firstDraftMode, setFirstDraftMode] = useState<boolean>(false); // Default to unchecked
+  const [hovered, setHovered] = useState<boolean>(false); // Track hover state
+  const [sliderVisible, setSliderVisible] = useState<boolean>(false); // Track slider interaction
   const { toast } = useToast(); // Initialize toast
 
   useEffect(() => {
@@ -42,7 +48,7 @@ const NavBar: React.FC = () => {
 
   const resetTimer = () => {
     setRunning(false);
-    setSeconds(600);
+    setSeconds(initialSeconds);
     console.log("Timer reset");
   };
 
@@ -85,19 +91,85 @@ const NavBar: React.FC = () => {
     };
   }, [firstDraftMode]);
 
+  const handleDurationChange = (duration: number) => {
+    setInitialSeconds(duration);
+    setSeconds(duration);
+  };
+
+  const handleMouseEnter = () => {
+    setHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    if (!sliderVisible) {
+      setHovered(false);
+    }
+  };
+
+  const handleSliderMouseEnter = () => {
+    setSliderVisible(true);
+  };
+
+  const handleSliderMouseLeave = () => {
+    setSliderVisible(false);
+    setHovered(false);
+  };
+
   return (
-    <div className={styles.navBar}>
-      <div className={`${styles.timer} flex items-center`}>
-        <span onClick={() => !running && setSeconds(600)}>
+    <div className={styles.navBar} style={{ backgroundColor: "#000000" }}>
+      <div
+        className={`${styles.timer} flex items-center justify-between relative`}
+        style={{
+          backgroundColor: "#000000",
+          padding: "10px",
+          borderRadius: "5px",
+        }} // Add background color
+      >
+        <span
+          onClick={() => !running && setSeconds(initialSeconds)}
+          style={{
+            backgroundColor: "#000000",
+            padding: "5px",
+            borderRadius: "5px",
+            width: "100px",
+          }}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
           {formatTime(seconds)}
         </span>
-
-        <Button onClick={startPauseTimer} className="mr-2 p-2 text-white">
+        <Button
+          onClick={startPauseTimer}
+          className="mr-2 p-2 text-white"
+          style={{ backgroundColor: "#6c757d" }}
+        >
           {running ? "Pause" : "Start"}
         </Button>
-        <Button onClick={resetTimer} className="p-2 text-white">
+        <Button
+          onClick={resetTimer}
+          className="p-2 text-white"
+          style={{ backgroundColor: "#6c757d" }}
+        >
           Reset
         </Button>
+        {!running && hovered && (
+          <div
+            className={styles.sliderBubble}
+            onMouseEnter={handleSliderMouseEnter}
+            onMouseLeave={handleSliderMouseLeave}
+            style={{
+              backgroundColor: "#ffffff",
+              padding: "10px",
+              borderRadius: "5px",
+              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+            }} // Add background color
+          >
+            <TimeSlider
+              onDurationChange={handleDurationChange}
+              className="w-[200px]"
+            />
+          </div>
+        )}
       </div>
       <div className={styles.date}>{new Date().toLocaleDateString()}</div>
       <div className={`${styles.toggle} flex items-center`}>

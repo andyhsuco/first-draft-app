@@ -1,14 +1,41 @@
 /* src/components/NavBar.module.css */
 
+.sliderBubble {
+  position: absolute;
+  background: white;
+  border: 1px solid #ccc;
+  /* padding: 24px; */
+  /* height: 48px; */
+  align-self: center;
+
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  top: 60%; /* Adjust as necessary */
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 10px; /* Adjust if necessary */
+}
+
 .navBar {
+  margin-top: 24px;
   display: flex;
+  padding: 4px 24px;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 12px;
+  border: 1px solid #818385;
+  background: rgba(17, 17, 17, 0.1);
+  backdrop-filter: blur(20px);
+  width: 80%;
+  /* display: flex;
   width: 100%;
   height: 79px;
   padding: 12px 172px;
   justify-content: space-between;
   align-items: center;
   flex-shrink: 0;
-  background-color: #1f2937; /* Adjust as needed */
+  background-color: #1f2937; Adjust as needed */
 }
 
 .timer {

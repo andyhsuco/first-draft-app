@@ -7,6 +7,8 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import ToastTest from "@/components/ToastTest";
 
+
+
 const inter = Inter({ subsets: ["latin"] }); // Initializing the Inter font with the 'latin' subset
 
 export const metadata: Metadata = {
