@@ -63,19 +63,20 @@ const NavBar: React.FC = () => {
     console.log(`First Draft Mode toggled to ${checked}`);
   };
 
-  const disableDeleteKey = (event: KeyboardEvent) => {
-    if (event.key === "Backspace" && firstDraftMode) {
-      event.preventDefault();
-      console.log("Backspace key press prevented");
-    }
-  };
-
   useEffect(() => {
     console.log(
       `useEffect: First Draft Mode is now ${
         firstDraftMode ? "enabled" : "disabled"
       }`
     );
+
+    const disableDeleteKey = (event: KeyboardEvent) => {
+      if (event.key === "Backspace" && firstDraftMode) {
+        event.preventDefault();
+        console.log("Backspace key press prevented");
+      }
+    };
+
     if (firstDraftMode) {
       document.addEventListener("keydown", disableDeleteKey);
       console.log("Event listener added");
