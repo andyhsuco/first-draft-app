@@ -25,7 +25,7 @@ export function CoverModal({ onStart, isVisible }: CoverModalProps) {
           >
             <div className="max-w-md text-center">
               <h2 className="mb-6 text-3xl font-bold text-white font-serif">
-                First Draft Mode
+                First Draft App
               </h2>
               <ul className="mb-8 space-y-4 text-lg text-gray-200 text-left font-serif">
                 <li>

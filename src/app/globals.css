@@ -99,3 +99,54 @@
 html {
   scroll-behavior: smooth;
 }
+
+@layer components {
+  .icon-button {
+    @apply !h-10 !w-10 !rounded-full !p-0;
+    @apply bg-gray-200/50 hover:bg-gray-200/80;
+    @apply bg-opacity-50 backdrop-blur-lg;
+    @apply transition-all duration-200 ease-in-out;
+    @apply dark:bg-white/10 dark:hover:bg-white/20 dark:bg-black/30;
+  }
+
+  .icon {
+    @apply h-5 w-5;
+    @apply text-gray-600 dark:text-gray-300;
+  }
+
+  .text-theme {
+    @apply text-gray-600 dark:text-gray-300;
+  }
+}
+
+@layer utilities {
+  .animate-in {
+    animation: animate-in 0.2s ease-out;
+  }
+
+  .animate-out {
+    animation: animate-out 0.2s ease-in;
+  }
+
+  @keyframes animate-in {
+    from {
+      opacity: 0;
+      transform: translateY(0.5rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes animate-out {
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(0.5rem);
+    }
+  }
+}

@@ -8,7 +8,8 @@ import { useToast } from "@/components/ui/use-toast";
 import { Toaster } from "@/components/ui/toaster";
 
 export default function Home() {
-  const [showCoverModal, setShowCoverModal] = useState(true);
+  // Initialize with null to indicate "not yet checked"
+  const [showCoverModal, setShowCoverModal] = useState<boolean | null>(null);
   const [isFirstDraftMode, setIsFirstDraftMode] = useState(true);
   const [timerRunning, setTimerRunning] = useState(false);
   const [timeLeft, setTimeLeft] = useState(0);
@@ -16,24 +17,34 @@ export default function Home() {
   const [initialTime, setInitialTime] = useState(0);
   const { toast } = useToast();
 
-  // Reset localStorage on mount in development
+  // Separate effect for session check that runs only once on mount
   useEffect(() => {
-    if (process.env.NODE_ENV === "development") {
-      localStorage.removeItem("has-visited");
-      localStorage.removeItem("draft-text");
-    }
-  }, []);
+    const checkSession = () => {
+      const lastVisitTime = localStorage.getItem("last-visit-time");
+      if (!lastVisitTime) {
+        setShowCoverModal(true);
+        return;
+      }
 
-  useEffect(() => {
-    const hasVisited = localStorage.getItem("has-visited");
-    if (hasVisited === "true") {
-      setShowCoverModal(false);
-    }
+      const currentTime = Date.now();
+      const lastTime = parseInt(lastVisitTime);
+      const SESSION_TIMEOUT = 30 * 60 * 1000; // 30 minutes
+
+      if (currentTime - lastTime > SESSION_TIMEOUT) {
+        setShowCoverModal(true);
+      } else {
+        setShowCoverModal(false);
+      }
+    };
+
+    // Small delay to ensure proper hydration
+    const timer = setTimeout(checkSession, 0);
+    return () => clearTimeout(timer);
   }, []);
 
   const handleStart = () => {
+    localStorage.setItem("last-visit-time", Date.now().toString());
     setShowCoverModal(false);
-    localStorage.setItem("has-visited", "true");
   };
 
   const handleTimerStart = (minutes: number) => {
@@ -116,6 +127,11 @@ export default function Home() {
 
     return () => clearInterval(interval);
   }, [timerRunning, timeLeft, isPaused, toast]);
+
+  // Don't render anything until we've determined modal state
+  if (showCoverModal === null) {
+    return null;
+  }
 
   return (
     <main className="relative min-h-screen overflow-hidden">
